@@ -143,7 +143,6 @@ const todos = handleActions(
         const index = draft.todos.findIndex(
           (todo) => todo.id === action.payload
         );
-        draft.todos.splice(index, 1);
       }),
   },
   initialState

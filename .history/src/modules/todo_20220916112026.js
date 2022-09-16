@@ -135,16 +135,13 @@ const todos = handleActions(
       }),
     [TOGGLE]: (state, action) =>
       produce(state, (draft) => {
-        const todo = draft.todos.find((todo) => todo.id === action.payload);
+        const todo = draft.todos.find((todo) => todo.id === id);
         todo.done = !todo.done;
       }),
-    [REMOVE]: (state, action) =>
-      produce(state, (draft) => {
-        const index = draft.todos.findIndex(
-          (todo) => todo.id === action.payload
-        );
-        draft.todos.splice(index, 1);
-      }),
+    [REMOVE]: (state, action) => ({
+      ...state,
+      todos: state.todos.filter((todo) => todo.id !== action.payload),
+    }),
   },
   initialState
 );

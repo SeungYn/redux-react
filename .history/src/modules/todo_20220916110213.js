@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import produce from 'immer';
 
 const CHANGE_INPUT = 'todos/CHANGE_INPUT';
 const INSERT = 'todos/INSERT';
@@ -101,52 +100,5 @@ const initialState = {
 //       return state;
 //   }
 // }
-
-//immer 사용전
-// const todos = handleActions({
-//   [CHANGE_INPUT]: (state, action) => ({ ...state, input: action.payload }),
-//   [INSERT]: (state, action) => ({
-//     ...state,
-//     todos: state.todos.concat(action.payload),
-//   }),
-//   [TOGGLE]: (state, action) => ({
-//     ...state,
-//     todos: state.todos.map((todo) =>
-//       todo.id === action.payload ? { ...todo, done: !todo.done } : todo
-//     ),
-//   }),
-//   [REMOVE]: (state, action) => ({
-//     ...state,
-//     todos: state.todos.filter((todo) => todo.id !== action.payload),
-//   }),
-//   initialState,
-// });
-
-//immer 사용후
-const todos = handleActions(
-  {
-    [CHANGE_INPUT]: (state, action) =>
-      produce(state, (draft) => {
-        draft.input = action.payload;
-      }),
-    [INSERT]: (state, action) =>
-      produce(state, (draft) => {
-        draft.todos.push(action.payload);
-      }),
-    [TOGGLE]: (state, action) =>
-      produce(state, (draft) => {
-        const todo = draft.todos.find((todo) => todo.id === action.payload);
-        todo.done = !todo.done;
-      }),
-    [REMOVE]: (state, action) =>
-      produce(state, (draft) => {
-        const index = draft.todos.findIndex(
-          (todo) => todo.id === action.payload
-        );
-        draft.todos.splice(index, 1);
-      }),
-  },
-  initialState
-);
 
 export default todos;
